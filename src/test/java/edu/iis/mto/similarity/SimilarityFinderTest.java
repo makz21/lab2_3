@@ -42,4 +42,44 @@ public class SimilarityFinderTest {
 
         Assert.assertThat(0.0, is(equalTo(similarityFinder.calculateJackardSimilarity(seq1,seq2))));
     }
+
+    @Test
+    public void jackardSimilaritySeqDiffSizesWithHalfCommonElement() {
+        int[] seq1 = {1,2,3};
+        int[] seq2 = {1,2,3,77,88,99};
+
+        similarityFinder = new SimilarityFinder((key, seq) -> {
+            if(key == seq[0] || key == seq[1] || key == seq[2])
+                return SearchResult.builder().withFound(true).build();
+
+            return SearchResult.builder().build();
+        });
+
+        Assert.assertThat(0.5,is(equalTo(similarityFinder.calculateJackardSimilarity(seq1,seq2))) );
+    }
+    @Test
+    public void jackardSimilarityCountAllCallsOfSearchMethod() {
+        SequenceSearcherDubler searcherDubler = new SequenceSearcherDubler();
+
+        int[] seq1 = {1, 2, 3, 4, 5};
+        int[] seq2 = {11, 22, 33, 44, 55};
+
+        similarityFinder = new SimilarityFinder(searcherDubler);
+        similarityFinder.calculateJackardSimilarity(seq1, seq2);
+        Assert.assertThat(seq1.length, is(equalTo(searcherDubler.getCounter())));
+    }
+
+    class SequenceSearcherDubler implements edu.iis.mto.search.SequenceSearcher {
+        private int counter;
+
+        @Override
+        public SearchResult search(int key, int[] seq) {
+            counter++;
+            return SearchResult.builder().withFound(false).build();
+        }
+
+        int getCounter() {
+            return counter;
+        }
+    }
 }
