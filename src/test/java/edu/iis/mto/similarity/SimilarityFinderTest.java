@@ -19,4 +19,17 @@ public class SimilarityFinderTest {
         Assert.assertThat(1.0 ,is(equalTo(similarityFinder.calculateJackardSimilarity(seq1,seq2))) );
     }
 
+    @Test
+    public void jackardSimilarityWithTheSameSeqShouldReturnOne(){
+        int[] seq1 = {1,2,3};
+        int[] seq2 = {1,2,3};
+
+        similarityFinder = new SimilarityFinder((key, seq) -> {
+            if (key == seq[0] || key == seq[1] || key == seq[2])
+                return SearchResult.builder().withFound(true).build();
+            return SearchResult.builder().withFound(false).build();
+        });
+
+        Assert.assertThat(1d, is(equalTo(similarityFinder.calculateJackardSimilarity(seq1,seq2))));
+    }
 }
