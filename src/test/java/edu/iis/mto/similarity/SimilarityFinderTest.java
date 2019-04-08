@@ -32,4 +32,14 @@ public class SimilarityFinderTest {
 
         Assert.assertThat(1d, is(equalTo(similarityFinder.calculateJackardSimilarity(seq1,seq2))));
     }
+
+    @Test
+    public void jackardSimilarityWithDiffSeqShouldReturnZero(){
+        int[] seq1 = {1,2,3};
+        int[] seq2 = {4,5,6};
+
+        similarityFinder = new SimilarityFinder((key, seq) -> SearchResult.builder().build());
+
+        Assert.assertThat(0.0, is(equalTo(similarityFinder.calculateJackardSimilarity(seq1,seq2))));
+    }
 }
