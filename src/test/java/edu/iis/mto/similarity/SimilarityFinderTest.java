@@ -16,7 +16,7 @@ public class SimilarityFinderTest {
         int[] seq2 = {};
         similarityFinder = new SimilarityFinder(((key, seq) -> SearchResult.builder().build()));
 
-        Assert.assertThat(1.0 ,is(equalTo(similarityFinder.calculateJackardSimilarity(seq1,seq2))) );
+        Assert.assertThat(similarityFinder.calculateJackardSimilarity(seq1,seq2), is(equalTo(1.0)) );
     }
 
     @Test
@@ -30,7 +30,7 @@ public class SimilarityFinderTest {
             return SearchResult.builder().withFound(false).build();
         });
 
-        Assert.assertThat(1d, is(equalTo(similarityFinder.calculateJackardSimilarity(seq1,seq2))));
+        Assert.assertThat(similarityFinder.calculateJackardSimilarity(seq1,seq2), is(equalTo(1d)));
     }
 
     @Test
@@ -40,7 +40,7 @@ public class SimilarityFinderTest {
 
         similarityFinder = new SimilarityFinder((key, seq) -> SearchResult.builder().build());
 
-        Assert.assertThat(0.0, is(equalTo(similarityFinder.calculateJackardSimilarity(seq1,seq2))));
+        Assert.assertThat(similarityFinder.calculateJackardSimilarity(seq1,seq2), is(equalTo(0.0)));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class SimilarityFinderTest {
             return SearchResult.builder().build();
         });
 
-        Assert.assertThat(0.5,is(equalTo(similarityFinder.calculateJackardSimilarity(seq1,seq2))) );
+        Assert.assertThat(similarityFinder.calculateJackardSimilarity(seq1,seq2), is(equalTo(0.5 )));
     }
     @Test
     public void jackardSimilarityCountAllCallsOfSearchMethod() {
